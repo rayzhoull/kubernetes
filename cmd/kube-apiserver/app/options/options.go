@@ -37,49 +37,49 @@ import (
 
 // ServerRunOptions runs a kubernetes api server.
 type ServerRunOptions struct {
-	GenericServerRunOptions *genericoptions.ServerRunOptions
-	Etcd                    *genericoptions.EtcdOptions
-	SecureServing           *genericoptions.SecureServingOptionsWithLoopback
-	InsecureServing         *genericoptions.DeprecatedInsecureServingOptionsWithLoopback
-	Audit                   *genericoptions.AuditOptions
-	Features                *genericoptions.FeatureOptions
-	Admission               *kubeoptions.AdmissionOptions
-	Authentication          *kubeoptions.BuiltInAuthenticationOptions
-	Authorization           *kubeoptions.BuiltInAuthorizationOptions
-	CloudProvider           *kubeoptions.CloudProviderOptions
-	APIEnablement           *genericoptions.APIEnablementOptions
-	EgressSelector          *genericoptions.EgressSelectorOptions
+	GenericServerRunOptions *genericoptions.ServerRunOptions  //通用运行配置
+	Etcd                    *genericoptions.EtcdOptions 	//ETCD相关
+	SecureServing           *genericoptions.SecureServingOptionsWithLoopback	//加密服务配置443
+	InsecureServing         *genericoptions.DeprecatedInsecureServingOptionsWithLoopback	//非加密服务配置80
+	Audit                   *genericoptions.AuditOptions	//审计相关
+	Features                *genericoptions.FeatureOptions	//特性
+	Admission               *kubeoptions.AdmissionOptions	//
+	Authentication          *kubeoptions.BuiltInAuthenticationOptions //认证
+	Authorization           *kubeoptions.BuiltInAuthorizationOptions	//授权
+	CloudProvider           *kubeoptions.CloudProviderOptions	//云原生支持
+	APIEnablement           *genericoptions.APIEnablementOptions //用于聚合服务
+	EgressSelector          *genericoptions.EgressSelectorOptions	//出口策略
 
-	AllowPrivileged           bool
-	EnableLogsHandler         bool
-	EventTTL                  time.Duration
-	KubeletConfig             kubeletclient.KubeletClientConfig
-	KubernetesServiceNodePort int
-	MaxConnectionBytesPerSec  int64
+	AllowPrivileged           bool  //是否配置超级权限，即允许Pod中运行的容器拥有系统特权
+	EnableLogsHandler         bool	//日志处理
+	EventTTL                  time.Duration //事件留存事件
+	KubeletConfig             kubeletclient.KubeletClientConfig //kubelet配置
+	KubernetesServiceNodePort int	//k8s service端口类型---nodeport：在每个Node上分配一个端口作为外部访问入口
+	MaxConnectionBytesPerSec  int64	//没用连接速率字节/秒
 	// ServiceClusterIPRange is mapped to input provided by user
-	ServiceClusterIPRanges string
+	ServiceClusterIPRanges string	//service 虚拟IP范围
 	//PrimaryServiceClusterIPRange and SecondaryServiceClusterIPRange are the results
 	// of parsing ServiceClusterIPRange into actual values
-	PrimaryServiceClusterIPRange   net.IPNet
-	SecondaryServiceClusterIPRange net.IPNet
+	PrimaryServiceClusterIPRange   net.IPNet	//service 主要虚拟IP
+	SecondaryServiceClusterIPRange net.IPNet	//service 次要虚拟IP
 
-	ServiceNodePortRange utilnet.PortRange
-	SSHKeyfile           string
-	SSHUser              string
+	ServiceNodePortRange utilnet.PortRange  	//service nodeport模式端口范围
+	SSHKeyfile           string		//SSH key文件路径
+	SSHUser              string	//ssh用户
 
-	ProxyClientCertFile string
-	ProxyClientKeyFile  string
+	ProxyClientCertFile string //代理cert文件
+	ProxyClientKeyFile  string //代理key文件
 
-	EnableAggregatorRouting bool
+	EnableAggregatorRouting bool //是否启用聚合路由
 
-	MasterCount            int
-	EndpointReconcilerType string
+	MasterCount            int	//master总数
+	EndpointReconcilerType string //
 
-	ServiceAccountSigningKeyFile     string
-	ServiceAccountIssuer             serviceaccount.TokenGenerator
-	ServiceAccountTokenMaxExpiration time.Duration
+	ServiceAccountSigningKeyFile     string	//帐户令牌发出者的当前私钥的文件的路径，依赖TokenRequest
+	ServiceAccountIssuer             serviceaccount.TokenGenerator	//
+	ServiceAccountTokenMaxExpiration time.Duration	//token释放时间
 
-	ShowHiddenMetricsForVersion string
+	ShowHiddenMetricsForVersion string	//显示指定版本隐藏指标
 }
 
 // NewServerRunOptions creates a new ServerRunOptions object with default parameters
